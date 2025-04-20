@@ -1,0 +1,70 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #74ebd5, #acb6e5);
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+.container {
+  background: white;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  width: 320px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.container:hover {
+  transform: scale(1.02);
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 0.5rem 0;
+  border: none;
+  border-radius: 8px;
+  background-color: #f0f0f0;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus {
+  background-color: #fff;
+  outline: none;
+  box-shadow: 0 0 5px #74ebd5;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(90deg, #007bff, #00c6ff);
+  color: white;
+  font-weight: bold;
+  border: none;
+  margin-top: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background: linear-gradient(90deg, #0056b3, #0096c7);
+  transform: scale(1.03);
+}
+
+a {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #0056b3;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #003f7f;
+}
