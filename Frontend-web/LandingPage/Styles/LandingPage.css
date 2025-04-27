@@ -1,0 +1,270 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  body {
+    background: linear-gradient(rgba(14, 14, 16, 0.85), rgba(14, 14, 16, 0.85)),
+                url('../../Assets/Backgrounds/bg_rewalker.png') no-repeat center center;
+    background-size: cover;
+    background-attachment: scroll; /* ou apenas remova */
+    color: #f0f0f0;
+    line-height: 1.6;
+    overflow-x: hidden; /* previne scroll horizontal acidental */
+  }
+  
+  
+  
+  header {
+    background: linear-gradient(to right, #1f1f25, #2e2e38);
+    padding: 1.5rem 1rem;
+    text-align: center;
+    border-bottom: 3px solid #2c88ff;
+  }
+  
+  header h1 {
+    font-size: 3rem;
+    color: #2c88ff;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+  }
+  
+  header p {
+    font-size: 1.2rem;
+    color: #ccc;
+  }
+  
+  .hero {
+    max-width: 900px;
+    margin: 3rem auto;
+    padding: 0 1rem;
+    text-align: center;
+  }
+  
+  .hero h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #ffffff;
+  }
+  
+  .hero p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    color: #bbb;
+  }
+  
+  .hero a {
+    background-color: #2c88ff;
+    color: white;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.3s ease;
+  }
+  
+  .hero a:hover {
+    background-color: #1b6ed6;
+  }
+  
+  .features {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 2rem 1rem;
+    gap: 1.5rem;
+  }
+  
+  .feature-card {
+    flex: 1;
+    min-width: 260px;
+    max-width: 300px;
+    background-color: #24242c;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid #2c88ff22;
+  }
+  
+  .feature-card h3 {
+    margin-bottom: 1rem;
+    color: #2c88ff;
+  }
+  
+  .feature-card p {
+    color: #aaa;
+    font-size: 0.95rem;
+  }
+  
+  footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 0.9rem;
+    color: #777;
+  }
+  
+  @media (max-width: 600px) {
+    header h1 {
+      font-size: 2.2rem;
+    }
+  
+    .hero h2 {
+      font-size: 1.5rem;
+    }
+  
+    .features {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    position: absolute;
+    width: 100%;
+    top: 0;
+  }
+  
+  .left,
+  .right {
+    display: flex;
+    align-items: center;
+  }
+  
+  .hamburger {
+    font-size: 3.5rem;
+    cursor: pointer;
+    color: white;
+    padding: 0.5rem 2rem; 
+    user-select: none;
+  }
+  
+  .dropdown {
+    position: absolute;
+    top: 2.7rem;
+    right: 120px;
+    background: #1f1f25;
+    width: 170px;
+    border-radius: 10px;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000;
+  
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: height 0.3s ease, opacity 0.3s ease;
+    pointer-events: none;
+    padding: 0 1rem; /* padding lateral fixo */
+  }
+  
+  .dropdown.show {
+    height: 220px;
+    opacity: 1;
+    pointer-events: all;
+  }
+  
+  
+  
+  .dropdown img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 1rem;
+  }
+  
+  .dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+  }
+  
+  .dropdown ul li {
+    margin: 0.5rem 0;
+  }
+  
+  .dropdown ul li a {
+    color: #ccc;
+    text-decoration: none;
+  }
+  
+  .dropdown ul li a:hover {
+    color: #2c88ff;
+  }
+  
+
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    top: 0; left: 0;
+    right: 0; bottom: 0;
+    background-color: #444;
+    transition: .4s;
+    border-radius: 34px;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 20px; width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  
+  input:checked + .slider {
+    background-color: #2c88ff;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(24px);
+  }
+  
+  .logo-container {
+    text-align: center;
+    
+  }
+  
+  .logo {
+    max-width: 300px;
+    width: 100%;
+    height: auto;
+  }
+  
+  .switch-label {
+    margin-left: 0.5rem;
+    color: #ccc;
+    font-size: 0.9rem;
+    user-select: none;
+  }
+
+  html, body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .content {
+    flex: 1;
+  }

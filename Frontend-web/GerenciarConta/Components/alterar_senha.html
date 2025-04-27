@@ -1,0 +1,27 @@
+<!-- alterar_senha_modal.html -->
+<div class="modal" id="change-password-modal">
+    <div class="modal-content">
+      <span class="close-btn" id="close-change-password">&times;</span>
+      <h2>Alterar Senha</h2>
+  
+      <form id="change-password-form">
+        <div class="password-container">
+          <input type="password" id="current-password" name="current-password" required minlength="8" placeholder="🔒 Senha atual">
+          <span class="toggle-password" id="toggle-current-password">&#128065;</span>
+        </div>
+  
+        <div class="password-container">
+          <input type="password" id="new-password" name="new-password" required minlength="8" placeholder="🔒 Nova senha">
+          <span class="toggle-password" id="toggle-new-password">&#128065;</span>
+        </div>
+  
+        <div class="password-container">
+          <input type="password" id="confirm-new-password" name="confirm-new-password" required minlength="8" placeholder="🔒 Confirmar nova senha">
+          <span class="toggle-password" id="toggle-confirm-password">&#128065;</span>
+        </div>
+  
+        <button type="submit">Salvar Alteração</button>
+      </form>
+    </div>
+  </div>
+  

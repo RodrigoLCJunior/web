@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rewalker</title>
+  <link rel="stylesheet" href="../Styles/LandingPage.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="../../Assets/Logos/rewalker_favicon.png" />
+  <link rel="stylesheet" href="../Styles/login_modal.css" />
+</head>
+<body>
+    <header>
+      <div class="top-bar">
+        <div class="left">
+          <label class="switch">
+            <input type="checkbox" id="sound-toggle">
+            <span class="slider round"></span>
+          </label>
+            <span class="switch-label">Habilitar som da página</span>
+        </div>
+  
+        <div class="right">
+          <div class="hamburger" id="hamburger">&#9776;</div>
+          <div class="dropdown" id="dropdown-menu">
+            <div class="profile-pic">
+              <img src="../../Assets/Icons/perfilIcon.png" alt="Perfil">
+            </div>
+            <ul>
+              <li><a href="#" id="login-link">Fazer Login</a></li>
+              <li><a href="#" id="register-link">Criar Conta</a></li>
+              <li><a href="#" id="perfil-link">Perfil</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+  
+      <div class="logo-container">
+        <img src="../../Assets/Logos/logo_rewalker(edited).PNG" alt="Logo do Rewalker" class="logo">
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="hero">
+        <h2>⚔️ O mais novo Clicker sombrio em seu Celular</h2>
+        <p>Customize sua conta, acompanhe eventos e fique por dentro de todas as novidades do Rewalker diretamente por aqui.</p>
+        <a href="#" id="gerenciar-conta-btn">Gerenciar Conta</a>
+      </section>
+
+      <section class="features">
+        <div class="feature-card">
+            <h3>📰 Notícias</h3>
+            <p>Fique por dentro de tudo que acontece no mundo de Rewalker! Eventos, novidades exclusivas e mais! </p>
+        </div>
+        <div class="feature-card">
+            <h3>💬 Comunidade</h3>
+            <p>Participe de fóruns, veja postagens da comunidade e conecte-se com outros jogadores.</p>
+        </div>
+        <div class="feature-card">
+            <h3>🧾 Gerenciamento de Conta</h3>
+            <p>Altere seu e-mail, seu nome, redefina a senha, e mantenha suas informações de perfil sempre atualizadas com segurança e facilidade.</p>
+        </div>      
+        <div class="feature-card">
+            <h3>📊	Estatísticas</h3>
+            <p>Acompanhe seu desempenho em batalhas, tempo de jogo e evolução do personagem.</p>
+        </div>
+        <div class="feature-card">
+          <h3>🎮 Atualizações</h3>
+          <p>Veja em primeira mão os eventos, atualizações e patches notes do jogo.</p>
+        </div>
+      </section>
+    </main>
+  
+  <footer>
+    &copy; 2025 Kaledra Studios. Todos os direitos reservados.
+  </footer>
+
+  <audio id="bg-music" loop>
+    <source src="../../Assets/Audios/bg_audio.mp3" type="audio/mpeg">
+    Seu navegador não suporta áudio.
+  </audio>
+
+  <div id="modal-container"></div>
+  <script src="../JavaScript/LandingPageController.js"></script>
+</body>
+</html>
