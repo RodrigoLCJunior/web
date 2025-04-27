@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-LandingpageApplication<landingpage>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.seuprojeto.landingpage.LandingpageApplication",
+            "projectName": "landingpage",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
