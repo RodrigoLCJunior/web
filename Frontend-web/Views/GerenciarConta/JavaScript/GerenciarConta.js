@@ -11,9 +11,10 @@ async function carregarUsuario() {
   const usuario = UserService.getCurrentUser();
 
   if (!usuario) {
-    alert('Você precisa estar logado para acessar esta página.');
-    window.location.href = '../../LandingPage/HTML/LandingPage.html';
-    return;
+    showToast('Você precisa estar logado para acessar esta página.', 'warning');
+    setTimeout(() => {
+      window.location.href = '../../LandingPage/HTML/LandingPage.html';
+    }, 2000);
   }
 
   document.getElementById('user-name').textContent = usuario.nome;
@@ -30,71 +31,100 @@ function configurarEventos() {
 
 function logout() {
   UserService.logout();
-  alert('Logout realizado com sucesso!');
-  window.location.href = '../../LandingPage/HTML/LandingPage.html';
+  showToast('Logout realizado com sucesso!', 'success');
+  setTimeout(() => {
+    window.location.href = '../../LandingPage/HTML/LandingPage.html';
+  }, 2000);
 }
 
 async function editarCampo(campo) {
-  const usuario = UserService.getCurrentUser();
-  if (!usuario) return logout();
+    const usuario = UserService.getCurrentUser();
+    if (!usuario) return logout();
+  
+    const response = await fetch('../Components/alterar_nomeEmail.html');
+    const html = await response.text();
+    document.getElementById('modal-container').innerHTML = html;
+  
+    const modal = document.getElementById('edit-field-modal');
+    const closeBtn = document.getElementById('close-edit-field');
+    const form = document.getElementById('edit-field-form');
+    const input = document.getElementById('edit-field-input');
+    const title = document.getElementById('edit-modal-title');
+  
+    const label = campo === 'nome' ? 'Nome' : 'Email';
+    input.type = campo === 'email' ? 'email' : 'text';
+    input.value = campo === 'nome' ? usuario.nome : usuario.email;
+    title.textContent = `Editar ${label}`;
+  
+    modal.style.display = 'flex';
+  
+    closeBtn.onclick = () => modal.style.display = 'none';
+    window.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
+  
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+  
+      const novoValor = input.value.trim();
+  
+      if (campo === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(novoValor)) {
+        showToast('Digite um email válido.', 'warning');
+        return;
+      }
+  
+      if (novoValor.length < 3) {
+        showToast(`${label} deve ter pelo menos 3 caracteres.`, 'warning');
+        return;
+      }
+  
+      // 👉 Agora aqui chama o modal de senha
+      await pedirSenhaParaAtualizar(usuario, campo, novoValor);
+  
+      modal.style.display = 'none'; // Fechar o modal principal depois
+    };
+  }
 
-  const response = await fetch('../Components/alterar_nomeEmail.html');
+async function pedirSenhaParaAtualizar(usuario, campo, novoValor) {
+  const response = await fetch('../Components/confirmar_senha_modal.html');
   const html = await response.text();
   document.getElementById('modal-container').innerHTML = html;
 
-  const modal = document.getElementById('edit-field-modal');
-  const closeBtn = document.getElementById('close-edit-field');
-  const form = document.getElementById('edit-field-form');
-  const input = document.getElementById('edit-field-input');
-  const passwordInput = document.getElementById('confirm-current-password'); // campo já existente
-  const togglePassword = document.getElementById('toggle-confirm-current-password'); // ícone do olhinho
-  const title = document.getElementById('edit-modal-title');
-
-  const label = campo === 'nome' ? 'Nome' : 'Email';
-  input.type = campo === 'email' ? 'email' : 'text';
-  input.value = campo === 'nome' ? usuario.nome : usuario.email;
-  title.textContent = `Editar ${label}`;
+  const modal = document.getElementById('confirm-password-modal');
+  const closeBtn = document.getElementById('close-confirm-password');
+  const form = document.getElementById('confirm-password-form');
+  const inputSenha = document.getElementById('confirm-password-input');
 
   modal.style.display = 'flex';
 
   closeBtn.onclick = () => modal.style.display = 'none';
   window.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
 
-  // 👉 Função do olhinho no campo de senha
-  togglePassword.addEventListener('click', () => {
-    passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
-  });
-
   form.onsubmit = async (e) => {
     e.preventDefault();
+    const senhaAtualDigitada = inputSenha.value.trim();
 
-    const novoValor = input.value.trim();
-    const senhaAtual = passwordInput.value.trim();
-
-    if (!senhaAtual) {
-      alert('Digite sua senha atual.');
+    if (!senhaAtualDigitada) {
+      showToast('Digite sua senha atual.', 'warning');
       return;
     }
 
-    if (campo === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(novoValor)) {
-      alert('Digite um email válido.');
-      return;
-    }
+    // Validar a senha
+    const senhaOk = await validarSenhaAtual(usuario.email, senhaAtualDigitada);
 
-    if (novoValor.length < 3) {
-      alert(`${label} deve ter pelo menos 3 caracteres.`);
+    if (!senhaOk) {
+      showToast('Senha incorreta.', 'error');
       return;
     }
 
     const payload = {
       nome: campo === 'nome' ? novoValor : usuario.nome,
       email: campo === 'email' ? novoValor : usuario.email,
-      senha: senhaAtual,
+      senha: senhaAtualDigitada,
     };
 
     const success = await atualizarUsuario(usuario.id, payload);
 
     if (success) {
+      // Atualiza localStorage
       if (campo === 'nome') usuario.nome = novoValor;
       if (campo === 'email') usuario.email = novoValor;
 
@@ -105,7 +135,7 @@ async function editarCampo(campo) {
     }
   };
 }
-
+  
 
 export async function openChangePasswordModal() {
   const usuario = UserService.getCurrentUser();
@@ -147,47 +177,50 @@ export async function openChangePasswordModal() {
 
   form.onsubmit = async (e) => {
     e.preventDefault();
-
+  
     const senhaAtual = inputCurrent.value.trim();
     const novaSenha = inputNew.value.trim();
     const confirmarNovaSenha = inputConfirm.value.trim();
-
+  
     if (!senhaAtual || !novaSenha || !confirmarNovaSenha) {
-      alert('Preencha todos os campos.');
+      showToast('Preencha todos os campos.', 'warning');
       return;
     }
-
+  
     if (novaSenha.length < 8) {
-      alert('A nova senha deve ter pelo menos 8 caracteres.');
+      showToast('A nova senha deve ter pelo menos 8 caracteres.', 'warning');
       return;
     }
-
+  
     if (novaSenha !== confirmarNovaSenha) {
-      alert('As novas senhas não coincidem.');
+      showToast('As novas senhas não coincidem.', 'warning');
       return;
     }
-
+  
     const validacao = await validarSenhaAtual(usuario.email, senhaAtual);
-
+  
     if (!validacao) {
-      alert('Senha atual incorreta.');
-      return;
+      showToast('Senha incorreta.', 'error');
+      return; // 🔥 ESSA LINHA É FUNDAMENTAL
     }
-
+  
     const payload = {
       nome: usuario.nome,
       email: usuario.email,
       senha: novaSenha,
     };
-
+  
     const success = await atualizarUsuario(usuario.id, payload);
-
+  
     if (success) {
-      alert('Senha alterada com sucesso!');
-      modal.style.display = 'none';
-      logout(); // Faz logout para forçar login de novo, por segurança
+      showToast('Senha alterada com sucesso!', 'success');
+      setTimeout(() => {
+        modal.style.display = 'none';
+        logout(); // ⚡ importante: fazer logout após alteração de senha
+      }, 2000);
     }
   };
+  
 }
 
 async function atualizarUsuario(userId, payload) {
@@ -201,17 +234,21 @@ async function atualizarUsuario(userId, payload) {
     if (response.ok) {
       const updatedUser = await response.json();
       localStorage.setItem('user', JSON.stringify(updatedUser));
-      alert('Alteração feita com sucesso!');
-      return true;  // <- Retorna sucesso
+      showToast('Alteração feita com sucesso!', 'success');
+      setTimeout(() => {
+        return true;
+      }, 2000);  // <- Retorna sucesso
     } else {
       const error = await response.json();
-      alert(error.message || 'Erro ao atualizar dados.');
+      showToast(error.message || 'Erro ao atualizar dados.', 'error');
       return false; // <- Retorna falha
     }
   } catch (err) {
     console.error(err);
-    alert('Erro ao conectar no servidor.');
-    return false;
+    showToast('Erro ao conectar no servidor.', 'error');
+    setTimeout(() => {
+      return false;
+    }, 2000); 
   }
 }
 
@@ -259,18 +296,69 @@ async function confirmarExclusaoConta() {
       });
 
       if (response.ok) {
-        alert('Conta excluída com sucesso.');
+        showToast('Conta excluída com sucesso.', 'success');
         localStorage.removeItem('user');
-        window.location.href = '../../LandingPage/HTML/LandingPage.html';
+        setTimeout(() => {
+          window.location.href = '../../LandingPage/HTML/LandingPage.html';
+        }, 2000);
       } else {
         const error = await response.json();
-        alert(error.message || 'Erro ao excluir conta.');
+        showToast(error.message || 'Erro ao excluir conta.', 'error');
       }
     } catch (err) {
       console.error(err);
-      alert('Erro ao conectar no servidor.');
+      showToast('Erro ao conectar no servidor.', 'error');
     } finally {
       modal.style.display = 'none';
     }
   };
+}
+
+function showToast(message, type = 'success') {
+  const toast = document.createElement('div');
+  toast.textContent = message;
+  toast.style.position = 'fixed';
+  toast.style.bottom = '30px'; // <-- coloca 30px do fundo
+  toast.style.left = '50%';
+  toast.style.transform = 'translateX(-50%)'; // <-- só mexe no X, não no Y mais
+  toast.style.color = '#fff';
+  toast.style.padding = '12px 24px';
+  toast.style.borderRadius = '8px';
+  toast.style.boxShadow = '0 2px 10px rgba(0,0,0,0.3)';
+  toast.style.zIndex = '10000';
+  toast.style.opacity = '0';
+  toast.style.transition = 'opacity 0.5s';
+  toast.style.maxWidth = '80%';
+  toast.style.textAlign = 'center';
+
+  // Definindo cor baseado no tipo
+  switch (type) {
+    case 'success':
+      toast.style.backgroundColor = '#4caf50'; // Verde
+      break;
+    case 'error':
+      toast.style.backgroundColor = '#f44336'; // Vermelho
+      break;
+    case 'info':
+      toast.style.backgroundColor = '#2196f3'; // Azul
+      break;
+    case 'warning':
+      toast.style.backgroundColor = '#ff9800'; // Laranja
+      break;
+    default:
+      toast.style.backgroundColor = '#333'; // Cinza
+  }
+
+  document.body.appendChild(toast);
+
+  // animação de aparecer
+  setTimeout(() => {
+    toast.style.opacity = '1';
+  }, 100);
+
+  // sumir depois de 3 segundos
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    setTimeout(() => document.body.removeChild(toast), 500);
+  }, 3000);
 }

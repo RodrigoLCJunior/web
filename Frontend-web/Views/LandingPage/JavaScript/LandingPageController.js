@@ -35,14 +35,14 @@ function attachLoginFormSubmit() {
       const result = await UserService.login(email, senha);
 
       if (result.success) {
-        alert(`Bem-vindo(a), ${result.user.nome}!`);
-        const loginModal = document.getElementById('login-modal');
-        loginModal.style.display = 'none';
-
+        showToast('Login realizado com sucesso!', 'success');
+        setTimeout(() => {
+          window.location.href = '../HTML/LandingPage.html'; // ou a página que quiser
+        }, 2000);
         // Opcional: redirecionar para área logada
         // window.location.href = '/pagina-logada.html';
       } else {
-        alert(`Erro no login: ${result.message}`);
+        alert(`Erro no login: ${result.message}`, 'error');
       }
     });
   }
@@ -75,13 +75,19 @@ function attachRegisterFormSubmit() {
       const result = await UserService.register(nome, email, senha);
 
       if (result.success) {
-        alert('Cadastro realizado com sucesso! Agora você pode fazer login.');
-        const registerModal = document.getElementById('register-modal');
-        registerModal.style.display = 'none';
-        openLoginModal();
+        showToast('Cadastro realizado com sucesso! Agora você pode fazer login', 'success');
+      
+        // Fecha o modal de cadastro depois de um pequeno delay
+        setTimeout(() => {
+          const registerModal = document.getElementById('register-modal');
+          registerModal.style.display = 'none';
+          openLoginModal(); // Abre o modal de login
+        }, 2000);
+      
       } else {
-        alert(`Erro no cadastro: ${result.message}`);
+        showToast(`Erro no cadastro: ${result.message}`, 'error');
       }
+      
     });
   }
 }
@@ -218,3 +224,55 @@ document.getElementById('perfil-link')?.addEventListener('click', (e) => {
   e.preventDefault();
   window.location.href = '../../GerenciarConta/HTML/GerenciarConta.html';
 });
+
+function showToast(message, type = 'success') {
+  const toast = document.createElement('div');
+  toast.textContent = message;
+  toast.style.position = 'fixed';
+  toast.style.bottom = '30px'; // <-- coloca 30px do fundo
+  toast.style.left = '50%';
+  toast.style.transform = 'translateX(-50%)'; // <-- só mexe no X, não no Y mais
+  toast.style.color = '#fff';
+  toast.style.padding = '12px 24px';
+  toast.style.borderRadius = '8px';
+  toast.style.boxShadow = '0 2px 10px rgba(0,0,0,0.3)';
+  toast.style.zIndex = '10000';
+  toast.style.opacity = '0';
+  toast.style.transition = 'opacity 0.5s';
+  toast.style.maxWidth = '80%';
+  toast.style.textAlign = 'center';
+
+  // Definindo cor baseado no tipo
+  switch (type) {
+    case 'success':
+      toast.style.backgroundColor = '#4caf50'; // Verde
+      break;
+    case 'error':
+      toast.style.backgroundColor = '#f44336'; // Vermelho
+      break;
+    case 'info':
+      toast.style.backgroundColor = '#2196f3'; // Azul
+      break;
+    case 'warning':
+      toast.style.backgroundColor = '#ff9800'; // Laranja
+      break;
+    default:
+      toast.style.backgroundColor = '#333'; // Cinza
+  }
+
+  document.body.appendChild(toast);
+
+  // animação de aparecer
+  setTimeout(() => {
+    toast.style.opacity = '1';
+  }, 100);
+
+  // sumir depois de 3 segundos
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    setTimeout(() => document.body.removeChild(toast), 500);
+  }, 3000);
+}
+
+
+
