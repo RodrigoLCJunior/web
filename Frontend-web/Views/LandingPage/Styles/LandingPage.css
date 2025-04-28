@@ -7,7 +7,7 @@
   
   body {
     background: linear-gradient(rgba(14, 14, 16, 0.85), rgba(14, 14, 16, 0.85)),
-                url('../../Assets/Backgrounds/bg_rewalker.png') no-repeat center center;
+                url('../../../Assets/Backgrounds/bg_rewalker.png') no-repeat center center;
     background-size: cover;
     background-attachment: scroll; /* ou apenas remova */
     color: #f0f0f0;
