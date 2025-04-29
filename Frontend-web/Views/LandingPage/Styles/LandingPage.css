@@ -9,11 +9,12 @@
     background: linear-gradient(rgba(14, 14, 16, 0.85), rgba(14, 14, 16, 0.85)),
                 url('../../../Assets/Backgrounds/bg_rewalker.png') no-repeat center center;
     background-size: cover;
-    background-attachment: scroll; /* ou apenas remova */
+    background-attachment: fixed; /* Mudar para fixed para manter o fundo fixo */
     color: #f0f0f0;
     line-height: 1.6;
     overflow-x: hidden; /* previne scroll horizontal acidental */
   }
+  
   
   
   
@@ -131,7 +132,13 @@
     top: 0;
   }
   
-  .left,
+  .left {
+    display: flex;
+    flex-direction: column;   /* Alinha os itens verticalmente */
+    justify-content: center;  /* Centraliza verticalmente */
+    align-items: center;      /* Centraliza horizontalmente */
+    margin-right: 1rem;       /* Para garantir algum espaço, se necessário */
+  }
   .right {
     display: flex;
     align-items: center;
@@ -204,7 +211,9 @@
 
   .switch {
     position: relative;
-    display: inline-block;
+    display: flex;
+    flex-direction: column; /* Alinha o texto abaixo do switcher */
+    align-items: center;    /* Centraliza os itens */
     width: 50px;
     height: 26px;
   }
@@ -255,11 +264,11 @@
   }
   
   .switch-label {
-    margin-left: 0.5rem;
-    color: #ccc;
-    font-size: 0.9rem;
-    user-select: none;
-  }
+  margin-top: 0.5rem; /* Espaço entre o switcher e o texto */
+  color: #ccc;
+  font-size: 0.9rem;
+  user-select: none;
+}
 
   html, body {
     height: 100%;
