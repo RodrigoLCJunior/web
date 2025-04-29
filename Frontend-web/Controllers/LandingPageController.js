@@ -10,6 +10,25 @@ const loginLink = document.getElementById('login-link');
 const registerLink = document.getElementById('register-link');
 const modalContainer = document.getElementById('modal-container');
 
+document.addEventListener('DOMContentLoaded', () => {
+  ajustarMenuBaseadoNoLogin();
+});
+
+function ajustarMenuBaseadoNoLogin() {
+  const usuario = UserService.getCurrentUser();
+
+  if (usuario) {
+    // Se está logado, esconde os botões de login e cadastro
+    loginLink.style.display = 'none';
+    registerLink.style.display = 'none';
+  } else {
+    // Se não está logado, mostra login e cadastro
+    loginLink.style.display = 'block';
+    registerLink.style.display = 'block';
+  }
+}
+
+
 // 👉 Função para configurar o submit do formulário de login
 function attachLoginFormSubmit() {
   const loginForm = document.getElementById('login-form');
@@ -215,15 +234,21 @@ registerLink.addEventListener('click', (e) => {
 });
 
 // 👉 Redirecionamento para página de Gerenciar Conta
-document.getElementById('gerenciar-conta-btn')?.addEventListener('click', (e) => {
+function acessarGerenciarConta(e) {
   e.preventDefault();
-  window.location.href = '../../GerenciarConta/HTML/GerenciarConta.html';
-});
 
-document.getElementById('perfil-link')?.addEventListener('click', (e) => {
-  e.preventDefault();
-  window.location.href = '../../GerenciarConta/HTML/GerenciarConta.html';
-});
+  const usuario = UserService.getCurrentUser();
+  
+  if (usuario) {
+    window.location.href = '../../GerenciarConta/HTML/GerenciarConta.html';
+  } else {
+    showToast('Você precisa estar logado para acessar esta página.', 'warning');
+  }
+}
+
+document.getElementById('gerenciar-conta-btn')?.addEventListener('click', acessarGerenciarConta);
+document.getElementById('perfil-link')?.addEventListener('click', acessarGerenciarConta);
+
 
 function showToast(message, type = 'success') {
   const toast = document.createElement('div');

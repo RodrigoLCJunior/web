@@ -1,4 +1,4 @@
-import { UserService } from '../../../Services/user_service.js';
+import { UserService } from '../Services/user_service.js';
 
 const baseUrl = "https://mob-backend-ah3e.onrender.com";
 
@@ -13,7 +13,7 @@ async function carregarUsuario() {
   if (!usuario) {
     showToast('Você precisa estar logado para acessar esta página.', 'warning');
     setTimeout(() => {
-      window.location.href = '../../LandingPage/HTML/LandingPage.html';
+      window.location.href = '../Views/LandingPage/HTML/LandingPage.html';
     }, 2000);
   }
 
@@ -33,7 +33,7 @@ function logout() {
   UserService.logout();
   showToast('Logout realizado com sucesso!', 'success');
   setTimeout(() => {
-    window.location.href = '../../LandingPage/HTML/LandingPage.html';
+    window.location.href = '../../../Views/LandingPage/HTML/LandingPage.html';
   }, 2000);
 }
 
@@ -299,7 +299,7 @@ async function confirmarExclusaoConta() {
         showToast('Conta excluída com sucesso.', 'success');
         localStorage.removeItem('user');
         setTimeout(() => {
-          window.location.href = '../../LandingPage/HTML/LandingPage.html';
+          window.location.href = '../../../Views/LandingPage/HTML/LandingPage.html';
         }, 2000);
       } else {
         const error = await response.json();
