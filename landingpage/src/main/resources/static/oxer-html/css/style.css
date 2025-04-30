@@ -70,8 +70,8 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(transparent), to(#21406b));
-  background: linear-gradient(to bottom, transparent, transparent, #21406b);
+  background: -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(transparent), to(#0c2344));
+  background: linear-gradient(to bottom, transparent, transparent, #0c2344);
 }
 
 .sub_page .hero_area {
@@ -87,7 +87,12 @@ body {
   position: relative;
   -webkit-clip-path: polygon(50% 0%, 100% 0, 100% 100%, 28.5% 100%, 26.5% 86%, 0 84%, 0 0);
           clip-path: polygon(50% 0%, 100% 0, 100% 100%, 28.5% 100%, 26.5% 86%, 0 84%, 0 0);
-}
+         
+          /*position: relative;
+          -webkit-clip-path: polygon(50% 0%, 100% 0, 100% 100%, 28.5% 100%, 26.5% 100%, 0 100%, 0 0);
+                  clip-path: polygon(50% 0%, 100% 0, 100% 100%, 28.5% 100%, 26.5% 100%, 0 100%, 0 0);*/
+          }
+          
 
 .header_section::before {
   content: "";
@@ -211,8 +216,11 @@ a:focus {
 }
 
 .navbar-brand img {
-  width: 125px;
-  margin-right: 5px;
+  width: 200px;
+  margin-right: 0px;
+  margin-left: 0;  
+  padding-left: 120px; 
+  
 }
 
 .navbar-brand.brand_mobile {
