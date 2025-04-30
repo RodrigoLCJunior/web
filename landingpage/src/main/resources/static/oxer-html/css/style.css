@@ -1,7 +1,7 @@
 body {
   font-family: "Poppins", sans-serif;
   color: #040000;
-  background-color: #63f74f;
+  background-color: #21406b;
 }
 
 .layout_padding {
@@ -57,7 +57,7 @@ body {
 /*header section*/
 .hero_area {
   height: 100vh;
-  background-image: url(../images/hero-bg.jpg);
+  background-image: url(../images/background_image.png);
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
@@ -70,8 +70,8 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(transparent), to(#63f74f));
-  background: linear-gradient(to bottom, transparent, transparent, #63f74f);
+  background: -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(transparent), to(#21406b));
+  background: linear-gradient(to bottom, transparent, transparent, #21406b);
 }
 
 .sub_page .hero_area {
@@ -441,8 +441,7 @@ a:focus {
 }
 
 .about_section .about_container {
-  padding: 45px;
-  background-image: url(../images/about-bg.jpg);
+  background-image: url(../images/background_image.png);
   background-size: cover;
 }
 

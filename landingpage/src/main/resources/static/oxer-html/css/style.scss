@@ -437,8 +437,9 @@ a:focus {
   }
 
   .about_container {
-    padding: 45px;
-    background-image: url(../images/about-bg.jpg);
+    width: 200px;
+    height: 50;
+    background-image: url(../images/rewalker.png);
     background-size: cover;
 
     .detail-box {
