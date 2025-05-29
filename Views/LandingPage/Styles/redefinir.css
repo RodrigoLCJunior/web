@@ -61,3 +61,28 @@ button {
 button:hover {
   background-color: #2b24a4;
 }
+
+.input-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.input-group input {
+  flex: 1;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.toggle-password {
+  cursor: pointer;
+  margin-left: 8px;
+  user-select: none;
+  font-size: 1.2rem;
+  color: #555;
+  transition: color 0.3s;
+}
+
+.toggle-password:hover {
+  color: #000;
+}

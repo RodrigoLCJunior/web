@@ -1,21 +1,25 @@
 package com.example.jogo.service;
 
 import com.example.jogo.model.*;
-import com.example.jogo.repository.CardsRepository;
-import com.example.jogo.repository.UsuarioRepository;
+import com.example.jogo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private TokenRecuperacaoSenhaRepository tokenRepository;
 
     @Autowired
     private AvatarService avatarService;
@@ -29,9 +33,10 @@ public class UsuarioService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    // Armazena tokens de recuperação de senha temporariamente
-    private final Map<String, String> tokensRecuperacao = new ConcurrentHashMap<>();
+    @Autowired
+    private JavaMailSender mailSender;
 
+    // Processa login verificando e-mail e senha
     @Transactional
     public LoginResponse login(Usuarios loginRequest) {
         Optional<Usuarios> usuarioOpt = usuarioRepository.findByEmail(loginRequest.getEmail());
@@ -53,93 +58,39 @@ public class UsuarioService {
         return usuarioRepository.findByEmail(email);
     }
 
-    public Usuarios buscarUsuarioPorId(UUID id) {
-        return usuarioRepository.findById(id).orElse(null);
-    }
-
     public List<Usuarios> listarUsuarios() {
         return usuarioRepository.findAll();
     }
 
+    // Cria novo usuário com avatar e moedas
     @Transactional
     public Usuarios criarUsuario(Usuarios usuarioRequest) throws IllegalArgumentException {
-        if (usuarioRequest.getNome() == null || usuarioRequest.getNome().trim().isEmpty() ||
-                usuarioRequest.getEmail() == null || usuarioRequest.getEmail().trim().isEmpty() ||
-                usuarioRequest.getSenha() == null || usuarioRequest.getSenha().trim().isEmpty()) {
+        if (usuarioRequest.getNome() == null || usuarioRequest.getEmail() == null || usuarioRequest.getSenha() == null) {
             throw new IllegalArgumentException("Campos obrigatórios estão vazios");
         }
 
-        Optional<Usuarios> existingUser = usuarioRepository.findByEmail(usuarioRequest.getEmail());
-        if (existingUser.isPresent()) {
+        if (usuarioRepository.findByEmail(usuarioRequest.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Email já está em uso");
         }
 
-        String senhaCriptografada = passwordEncoder.encode(usuarioRequest.getSenha());
         Usuarios usuario = new Usuarios();
         usuario.setNome(usuarioRequest.getNome());
         usuario.setEmail(usuarioRequest.getEmail());
-        usuario.setSenha(senhaCriptografada);
+        usuario.setSenha(passwordEncoder.encode(usuarioRequest.getSenha()));
 
-        Avatar avatar = new Avatar(30);
-        avatar = avatarService.criarAvatar(avatar);
-        if (avatar == null) {
-            throw new IllegalArgumentException("Falha ao criar avatar");
-        }
+        usuario.setAvatar(avatarService.criarAvatar(new Avatar(30)));
+        usuario.setMoedaPermanente(moedaPermanenteService.criarMoedaPermanente());
 
-        MoedaPermanente moedaPermanente = moedaPermanenteService.criarMoedaPermanente();
-        if (moedaPermanente == null) {
-            throw new IllegalArgumentException("Falha ao criar moeda permanente");
-        }
-
-        usuario.setAvatar(avatar);
-        usuario.setMoedaPermanente(moedaPermanente);
         return usuarioRepository.save(usuario);
     }
 
+    // Atualiza informações do usuário
     @Transactional
     public Usuarios modificarUsuario(UUID id, Usuarios usuarios) {
-        Usuarios usuarioVelho = usuarioRepository.findById(id).orElse(null);
-        if (usuarioVelho == null ||
-                usuarios.getNome() == null || usuarios.getNome().trim().isEmpty() ||
-                usuarios.getEmail() == null || usuarios.getEmail().trim().isEmpty() ||
-                usuarios.getSenha() == null || usuarios.getSenha().trim().isEmpty()) {
-            throw new IllegalArgumentException("Campos obrigatórios estão vazios");
-        }
-
-        usuarioVelho.setNome(usuarios.getNome());
-        usuarioVelho.setEmail(usuarios.getEmail());
-        usuarioVelho.setSenha(passwordEncoder.encode(usuarios.getSenha()));
-        return usuarioRepository.save(usuarioVelho);
-    }
-
-    @Transactional
-    public Usuarios salvarUsuario(Usuarios usuario) {
-        return usuarioRepository.save(usuario);
-    }
-
-    @Transactional
-    public Usuarios adicionarCartaAoDeckPorNumero(UUID usuarioId, Long numeroCarta) {
-        Usuarios usuario = usuarioRepository.findById(usuarioId).orElse(null);
-        if (usuario == null) {
-            throw new IllegalArgumentException("Usuário não encontrado");
-        }
-
-        Cards carta = cardsRepository.findById(numeroCarta).orElse(null);
-        if (carta == null) {
-            throw new IllegalArgumentException("Carta com número " + numeroCarta + " não encontrada");
-        }
-
-        Avatar avatar = usuario.getAvatar();
-        if (avatar == null) {
-            throw new IllegalStateException("Avatar do usuário não encontrado");
-        }
-
-        if (avatar.getDeck() == null) {
-            avatar.setDeck(new ArrayList<>());
-        }
-
-        avatar.getDeck().add(carta);
-
+        Usuarios usuario = usuarioRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
+        usuario.setNome(usuarios.getNome());
+        usuario.setEmail(usuarios.getEmail());
+        usuario.setSenha(passwordEncoder.encode(usuarios.getSenha()));
         return usuarioRepository.save(usuario);
     }
 
@@ -148,41 +99,51 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
+    // Gera token, salva no banco, e envia por e-mail
+    public boolean gerarTokenEEnviarEmail(String email) {
+        Optional<Usuarios> usuarioOpt = usuarioRepository.findByEmail(email);
+        if (usuarioOpt.isEmpty()) return false;
 
-    /*
- ** Task..: 79 - Modal Esqueceu Senha
- ** Data..: 26/05/25
- ** Autor.: Victor Emanoel
- ** Motivo: Gerar Token para Recuperação de senha 
- ** Obs...:
- */
+        String token = UUID.randomUUID().toString();
 
-    // ===========================
-    // Recuperação de Senha
-    // ===========================
+        TokenRecuperacaoSenha tokenEntity = new TokenRecuperacaoSenha();
+        tokenEntity.setToken(token);
+        tokenEntity.setEmail(email);
+        tokenEntity.setExpiracao(LocalDateTime.now().plusMinutes(10)); // token expira em 10 minutos
+        tokenRepository.save(tokenEntity);
 
-    public void salvarTokenRecuperacao(String email, String token) {
-        tokensRecuperacao.put(token, email);
+        String link = "https://redefinir_senha.html?token=" + token;
+        enviarEmailRecuperacao(email, link);
+
+        return true;
     }
 
+    // Envia o e-mail com o link de redefinição
+    public void enviarEmailRecuperacao(String email, String link) {
+        SimpleMailMessage mensagem = new SimpleMailMessage();
+        mensagem.setTo(email);
+        mensagem.setSubject("Redefinição de Senha - Rewalker");
+        mensagem.setText("Clique para redefinir sua senha: " + link);
+        mailSender.send(mensagem);
+    }
+
+    // Redefine a senha e remove token do banco
     @Transactional
     public boolean redefinirSenha(String token, String novaSenha) {
-        String email = tokensRecuperacao.get(token);
-        if (email == null) {
+        Optional<TokenRecuperacaoSenha> tokenOpt = tokenRepository.findByToken(token);
+        if (tokenOpt.isEmpty() || tokenOpt.get().getExpiracao().isBefore(LocalDateTime.now())) {
             return false;
         }
 
-        Optional<Usuarios> usuarioOptional = usuarioRepository.findByEmail(email);
-        if (usuarioOptional.isEmpty()) {
-            return false;
-        }
+        String email = tokenOpt.get().getEmail();
+        Optional<Usuarios> usuarioOpt = usuarioRepository.findByEmail(email);
+        if (usuarioOpt.isEmpty()) return false;
 
-        Usuarios usuario = usuarioOptional.get();
-        String senhaCriptografada = passwordEncoder.encode(novaSenha);
-        usuario.setSenha(senhaCriptografada);
+        Usuarios usuario = usuarioOpt.get();
+        usuario.setSenha(passwordEncoder.encode(novaSenha));
         usuarioRepository.save(usuario);
 
-        tokensRecuperacao.remove(token); // Invalida o token após uso
+        tokenRepository.delete(tokenOpt.get()); // remove o token após uso
         return true;
     }
 }
