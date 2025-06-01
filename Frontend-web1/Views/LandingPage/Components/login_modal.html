@@ -1,0 +1,39 @@
+<div class="modal" id="login-modal">
+  <div class="modal-content">
+    <span class="close-btn" id="close-modal">&times;</span>
+    <h2>Login</h2>
+    <form id="login-form" autocomplete="on">
+      <label for="email">Email</label>
+      <input 
+        type="email" 
+        id="email" 
+        name="email" 
+        required 
+        autocomplete="email"
+        placeholder="📧 Digite seu email aqui"
+      >
+      
+      <label for="password">Senha</label>
+      <div class="password-container">
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          required 
+          minlength="8" 
+          autocomplete="current-password"
+          placeholder="🔒 Digite sua senha aqui"
+        >
+        <span class="toggle-password" id="toggle-password">&#128065;</span>
+      </div>
+
+      <button type="submit">Entrar</button>
+
+      <div class="separator">
+        <span>ou</span>
+      </div>
+
+      <button type="button" class="register-btn">Cadastrar</button>
+    </form>      
+  </div>
+</div>
