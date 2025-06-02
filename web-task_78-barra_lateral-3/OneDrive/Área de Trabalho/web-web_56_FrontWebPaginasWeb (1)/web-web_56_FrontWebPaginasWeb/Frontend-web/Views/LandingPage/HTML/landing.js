@@ -1,76 +1,41 @@
-// Efeito de opacidade ao scroll
-window.addEventListener('scroll', function () {
-  const hero = document.querySelector('.hero');
-  const scrollY = window.scrollY;
-
-  const opacity = Math.min(scrollY / 300, 1);
-  hero.style.setProperty('--overlay-opacity', opacity);
-  hero.style.setProperty('--scroll-opacity', opacity);
-  hero.style.setProperty('--scroll-blur', Math.min(scrollY / 100, 10) + 'px');
-
-  // Classe para header com rolagem
+window.addEventListener("scroll", function(){
   const header = document.querySelector('#header');
-  header.classList.toggle('rolagem', scrollY > 0);
+  header.classList.toggle('rolagem', window.scrollY > 0);
 });
 
-// Anima o raio + toca trovão
-function tocarRelampago() {
-  const relampago = document.getElementById('raio');
-  const som = document.getElementById('somTrovao');
+const relampagoEsquerdo = document.getElementById('raio_esquerdo');
+const relampagoDireito = document.getElementById('raio_direito');
+const trovao = document.getElementById('somTrovao');
+const toggleSom = document.getElementById('sound-toggle');
 
-  // Ativa o flash
-  relampago.style.animation = 'raioFlash 1s ease-in-out';
-  relampago.style.opacity = 1;
+// Controle de som
+toggleSom.addEventListener('change', () => {
+  trovao.muted = !toggleSom.checked;
+});
 
-  // Reproduz o som
-  som.currentTime = 0;
-  som.play();
+function tocarRaio(element) {
+  element.style.animation = 'none';
+  element.offsetHeight; // força reflow
+  element.style.animation = 'raioFlash 1s ease-in-out';
 
-  // Remove a animação e oculta depois
-  setTimeout(() => {
-    relampago.style.animation = 'none';
-    relampago.style.opacity = 0;
-  }, 1000);
+  if (trovao && toggleSom.checked) {
+    trovao.currentTime = 0;
+    trovao.play();
+  }
 }
 
-// Dispara relâmpago automático após 1s
+function piscarRaiosAlternados() {
+  tocarRaio(relampagoEsquerdo);
+  setTimeout(() => {
+    tocarRaio(relampagoDireito);
+  }, 2000);
+}
+
+// Disparo inicial e intervalo
+piscarRaiosAlternados();
+setInterval(piscarRaiosAlternados, 4000);
+
+// Opcional: atraso no primeiro raio após carregamento
 window.addEventListener('load', () => {
-  setTimeout(tocarRelampago, 1000);
+  setTimeout(piscarRaiosAlternados, 1000);
 });
-
-// Toca som mesmo se bloqueado pelo navegador
-window.addEventListener("load", function () {
-  const som = document.getElementById("somTrovao");
-
-  som.volume = 0.8;
-  som.play().catch(function () {
-    console.log("Autoplay bloqueado. Tocando após clique.");
-    document.body.addEventListener("click", () => {
-      som.play();
-    }, { once: true });
-  });
-});
-
-function tocarRelampago() {
-  const raioEsquerdo = document.getElementById('raio-esquerdo');
-  const raioDireito = document.getElementById('raio-direito');
-  const som = document.getElementById('somTrovao');
-
-  // Ativa os dois flashes
-  [raioEsquerdo, raioDireito].forEach((raio) => {
-    raio.style.animation = 'raioFlash 1s ease-in-out';
-    raio.style.opacity = 1;
-  });
-
-  // Toca o som
-  som.currentTime = 0;
-  som.play();
-
-  // Remove o flash depois de 1s
-  setTimeout(() => {
-    [raioEsquerdo, raioDireito].forEach((raio) => {
-      raio.style.animation = 'none';
-      raio.style.opacity = 0;
-    });
-  }, 1000);
-}

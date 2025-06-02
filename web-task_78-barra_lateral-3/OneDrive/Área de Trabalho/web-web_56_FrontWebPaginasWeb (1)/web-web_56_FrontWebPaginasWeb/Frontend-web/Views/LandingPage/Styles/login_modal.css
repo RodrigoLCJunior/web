@@ -1,7 +1,7 @@
 .modal {
   display: none;
   position: fixed;
-  z-index: 2000;
+  z-index: 10000;
   left: 0;
   top: 0;
   width: 100vw;
@@ -14,7 +14,7 @@
 .modal-content {
   background: #1f1f25;
   padding: 2rem;
-  border-radius: 12px;
+  border-radius: 10px;
   max-width: 460px;
   width: 90%;
   color: white;
@@ -26,6 +26,7 @@
 
   animation: fadeScaleIn 0.3s ease forwards;
   transform-origin: center;
+
 }
 
 .modal-content h2 {

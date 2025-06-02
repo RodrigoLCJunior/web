@@ -9,11 +9,11 @@
 
   body {
     background-size: cover;
-    background-attachment: fixed; /* Mudar para fixed para manter o fundo fixo */
+    background-attachment: fixed; 
     color: #f0f0f0;
     line-height: 1.6;
-    overflow-x: hidden; /* previne scroll horizontal acidental */
-    border: 2px solidrgb(0, 98, 255)d;
+    overflow-x: hidden; 
+    
   }
 
   
@@ -41,6 +41,7 @@
     color: #ffffff;
     letter-spacing: 2px;
     margin-bottom: 0.5rem;
+    
   }
   
   .banner {
@@ -50,8 +51,9 @@
   /* começo degrade */
   
   .hero {
+  height: 100vh;
+  padding-bottom: 50vh;
   width: 100%;
-  height: 116vh;
   margin: 0;
   padding: 0;
   text-align: center;
@@ -77,15 +79,15 @@
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(3, 44, 84, 0.95) 0%,     /* topo - cor forte */
-    rgba(3, 63, 98, 0.0) 20%,     /* transparência no meio */
+    rgba(3, 44, 84, 0.95) 0%,     
+    rgba(3, 63, 98, 0.0) 20%,     
     rgba(3, 63, 98, 0.0) 80%,     
-    rgba(3, 44, 84, 0.95) 100%    /* fundo - mesma cor */
+    rgba(3, 44, 84, 0.95) 100%    
   );
-  opacity: 1 ; /* valor 1 para sempre visível */
-  transition: opacity 0.2s linear;
+  transition: opacity linear;
   pointer-events: none;
   z-index: 1;
+  opacity: var(--overlay-opacity, 1);
 }
 
 
@@ -124,18 +126,27 @@
   display: flex;
   justify-content: center;
   gap: 30px;
-  margin-top: -100px; /* sobe sobre o degradê */
+  flex-wrap: nowrap;
+  margin-top: -100px;
   padding: 0 20px;
   z-index: 10;
   position: relative;
+  
 }
 
 .caixa {
-  width: 400px;
+  width: 430px;
   border-radius: 20px;
-  padding: 30px;
+  padding: 50px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.1);
   text-align: left;
+}
+
+.caixa-container {
+  display: flex;
+  align-items: end;
+  gap: 20px;
+  
 }
 
 .caixa.branca {
@@ -148,20 +159,45 @@
   color: white;
 }
 
+.icone-noticias {
+  width: 130px;
+  height: 110px;
+  object-fit: contain;
+  border-radius: 10%; 
+  background-color: #40B4D4; 
+  padding: 1.0px;
+}
+
+.icone-comunidade {
+  width: 130px;
+  height: 110px;
+  object-fit: contain;
+  border-radius: 10%; 
+  background-color: #ffffff; 
+  padding: 1.0px;
+}
+
 
  /* fim */
 
 
   .hero h2 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
+    font-size: 3rem;
+    margin-bottom: 2rem;
     color: #ffffff;
+    font-family: "Londrina Solid", sans-serif;
+    margin-top: 125px;
+    line-height: 1.0;
+
   }
   
   .hero p {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     margin-bottom: 2rem;
     color: #bbb;
+    font-family: "Londrina Solid", sans-serif;
+    font-weight: 300;
+    line-height: 1.0;
   }
   
   .hero a {
@@ -172,12 +208,37 @@
     border-radius: 5px;
     font-weight: bold;
     transition: background 0.3s ease;
+    
   }
   
   .hero a:hover {
     background-color: #1b6ed6;
   }
   
+  /* texto */
+
+  .caixa-continua h3 {
+    margin-bottom: 1rem;
+    color: #212121;
+    font-family: "Londrina Solid", sans-serif;
+    line-height: 1.0;
+    font-size: 2rem;
+    text-align: center;
+
+    
+  }
+
+  .caixa-continua p {
+  font-family: "Londrina Solid", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  text-align: center;
+  
+
+
+  }
+
+  /* fim */
 
   
   @media (max-width: 600px) {
@@ -224,7 +285,7 @@
   .hamburger {
     font-size: 3.5rem;
     cursor: pointer;
-    color: #1f1f25;
+    color: #38383f;
     padding: 0.5rem 2rem; 
     user-select: none;
   }
@@ -249,7 +310,7 @@
   }
   
   .dropdown.show {
-    height: auto; /* 🌟 Deixa o tamanho automático! */
+    height: auto; 
     opacity: 1;
     pointer-events: all;
     padding: 1rem; /* Já garante espaçamento bonito */
@@ -277,6 +338,7 @@
   .dropdown ul li a {
     color: #ccc;
     text-decoration: none;
+    
   }
   
   .dropdown ul li a:hover {
@@ -336,17 +398,20 @@
     max-width: 300px;
     width: 100%;
     height: auto;
+    position: relative;
+    z-index: 1;
   }
   
   .switch-label {
   margin-top: 0.5rem; /* Espaço entre o switcher e o texto */
-  color: #ccc;
+  color: #575757;
   font-size: 0.9rem;
   user-select: none;
 }
 
+/* scroll */
   html, body {
-    height: 500%;
+    height: 300%; 
     display: flex;
     flex-direction: column;
     margin: 0;
@@ -359,71 +424,222 @@
   }
 
   ::-webkit-scrollbar{
-    width: 20px;
+    width: 25px;
   }
 
   ::-webkit-scrollbar-thumb{
-    width: 20px;
-    background-color: orange; 
+  background-color: orange;
+  border-radius: 10px;
+  border: 3px solid #24242c;
+    
   }
 
- .relampago { 
-  position: fixed;
-  top: 0;
-  left: 0;
+
+/* fim */
+
+body.modal-open {
+  overflow: hidden;
+}
+
+/* arvores fim da página */
+
+.arvores {
+  margin-top: 150px;
+  background-image: url('../../../Assets/Logos/florestanegra_.png');
+  background-repeat: no-repeat;
+  background-position: bottom center; 
+  background-size: cover; /* ou "contain" se preferir mostrar tudo */
+  
+  width: 100%;
+  height: 310px; /* ajuste conforme necessário */
+  
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+
+  padding-bottom: 30px;
+  position: relative;
+  z-index: 1;
+  background-color: transparent;
+}
+
+/* fim  */
+
+footer{
+ position: relative;
+  z-index: 10;
+  background-color: #000000;
+  color: rgb(95, 91, 91);
+  text-align: center;
+  padding: 20px;
+}
+
+.nosifer-regular {
+  font-family: "Nosifer", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* caixa do video */
+
+.caixa-video-container {
+  display: flex;
+  justify-content: flex-start; 
+  width: 100%;
+  margin-top: 120px;
+  
+}
+
+.caixa-video-background {
+  width: 45vw;
+  height: 440px;
+  background-color: #1e1e2f;
+  border-radius: 0 20px 20px 0; /* Arredonda só o lado direito agora */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  position: relative;
+}
+
+
+/* fim */
+
+/* texto ao lado do vídeo */
+
+.caixa-video h2{
+  margin-bottom: 1rem;
+    font-family: "Londrina Solid", sans-serif;
+    line-height: 1.0;
+    font-size: 3.0rem;
+    text-align: center;
+    margin-top: 120px;
+    padding-left: 50px;
+    margin-left: 30px;
+    text-shadow:
+    -1px -1px 0 #000,  
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     2px  2px 0 #000; 
+  
+}
+
+.caixa-video p{
+  font-family: "Londrina Solid", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  text-align: center;
+  line-height: 2.0;
+  font-size: 1.1rem;
+  padding-left: 50px;
+  margin-left: 30px;
+  
+  
+}
+/* fim */ 
+
+/* ultimas caixas */
+
+.features {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 2rem 1rem;
+    gap: 1.5rem;
+    
+  }
+  
+  .feature-card {
+    flex: 1;
+    min-width: 260px;
+    max-width: 300px;
+    background-color: #24242c;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid #2c88ff22;
+    margin-top: 130px;
+    
+  }
+  
+  .feature-card h3 {
+    line-height: 1.0;
+    font-size: 2.1rem;
+    margin-bottom: 1rem;
+    color: #2c88ff;
+     font-family: "Londrina Solid", sans-serif;
+  }
+  
+  .feature-card p {
+    font-family: "Londrina Solid", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    text-align: center;
+    line-height: 1.5;
+    color: #aaa;
+    font-size: 1.1rem;
+  }
+
+/* fim */
+
+.video-sobreposto {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  width: 220px;    
+  height: 390px;
+  border: 6px solid  #494949;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+
+.video-sobreposto video {
   width: 100%;
   height: 100%;
-  background: white;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 9999;
-  animation: raioFlash 7s infinite ease-in-out;
+  object-fit: cover;
 }
+/* fim */
 
-@keyframes raioFlash {
-  0%, 100% {
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.8;
-  }
-  11%, 20% {
-    opacity: 0;
-  }
-  21% {
-    opacity: 0.5;
-  }
-  22%, 100% {
-    opacity: 0;
-  }
-}
 
+/* raios */
 .raio {
-  position: fixed;
-  top: 0;
-  width: 100px;
-  height: 100vh;
-  background-size: contain;
+  position:absolute;
+  top: 20px;
+  width: 150px;
+  height: 150px;
   background-repeat: no-repeat;
-  background-position: center;
-  opacity: 0;
+  background-size: contain;
   pointer-events: none;
-  z-index: 9999;
-  animation: none;
+  z-index: 1000;
+  opacity: 0;
 }
 
-.raio_esquerdo {
-  left: 0;
-  background-image: url('../../../Assets/Icons/raio_esquerdo.png');
+/* Esquerdo */
+#raio_esquerdo {
+  left: 20px;
+  background-image: url('../../../Assets/Logos/raio_esquerdo.png');
+   width: 800px; 
+  height: 1000px;
+  
+}
+  
+/* Direito */
+#raio_direito {
+  right: 20px;
+  background-image: url('../../../Assets/Logos/raio_direito.png');
+  width: 800px;
+  height: 1000px;
+  
 }
 
-.raio_direito {
-  right: 0;
-  background-image: url('../../../Assets/Icons/raio_direito.png');
-}
-
+/* Animação para piscar */
 @keyframes raioFlash {
-  0% { opacity: 0; }
-  10% { opacity: 1; }
-  100% { opacity: 0; }
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
 }
+
+
+
+/* fim */
+
+

@@ -3,7 +3,7 @@
 import { User } from '../Models/user.js';
 
 export class UserService {
-  static baseUrl = "https://mob-backend-ah3e.onrender.com/api/usuarios";
+  static baseUrl = "https://mob-backend-3-combate-inteiro.onrender.com/api/usuarios";
 
   static async login(email, senha) {
     if (!email || !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
