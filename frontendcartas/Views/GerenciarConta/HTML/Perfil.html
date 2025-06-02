@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perfil | Rewalker</title>
+  <link rel="stylesheet" href="../Styles/Perfil.css" />
+  <link rel="icon" type="image/png" href="../../../Assets/Logos/rewalker_favicon.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+</head>
+
+<nav class="menu-lateral"> 
+  <div class="btn-expandir">
+    <i class="bi bi-list"></i>
+  </div>
+
+  <ul>
+    <li class="item-menu">
+      <a href="../../GerenciarConta/HTML/Perfil.html">
+        <span class="icon"><i class="bi bi-person"></i></span>
+        <span class="txt-link">Perfil</span>
+      </a>
+    </li>
+      <li class="item-menu">
+  <a href="../../GerenciarConta/HTML/Cartas.html">
+    <span class="icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" viewBox="0 0 24 24">
+        <!-- Contorno externo -->
+        <rect x="3" y="2" width="18" height="20" rx="3" ry="3"/>
+        <!-- Linha interna para detalhe -->
+        <rect x="6" y="5" width="12" height="14" rx="1.5" ry="1.5" stroke-width="1" />
+        
+      </svg>
+    </span>
+    <span class="txt-link">Cartas</span>
+  </a>
+</li>
+    <li class="item-menu">
+      <a href="../../GerenciarConta/HTML/GerenciarConta.html">
+        <span class="icon"><i class="bi bi-pen"></i></span>
+        <span class="txt-link">Alterar</span>
+      </a>
+    </li>
+    <li class="item-menu">
+  <button id="logout-btn" class="logout-btn">
+    <span class="icon"><i class="bi bi-box-arrow-left"></i></span>
+    <span class="txt-link">Sair</span>
+  </button>
+    </li>
+  </ul>
+</nav>
+
+
+
+  <main class="account-container">
+    <h1>Perfil do Usuário</h1>
+
+    <div class="profile-section">
+      <img src="../../../Assets/Icons/perfilIcon.png" alt="Foto de Perfil" class="profile-pic">
+    </div>
+
+    <div class="info-section">
+      <div class="info-item">
+        <span class="label">Nome:</span>
+        <span id="user-name">Carregando...</span>
+      </div>
+
+      <div class="info-item">
+        <span class="label">Email:</span>
+        <span id="user-email">Carregando...</span>
+      </div>
+
+    </div>
+
+    <div class="info-section">
+      <h2>Avatar</h2>
+      <div class="info-item">
+        <span class="label">HP:</span>
+        <span id="user-avatar">Carregando...</span>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <h2>Progressão</h2>
+      <div class="info-item">
+        <span class="label">Moedas Temporárias:</span>
+        <span id="moedas-temporarias">Carregando...</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Total de Cliques:</span>
+        <span id="total-cliques">Carregando...</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Inimigos Derrotados:</span>
+        <span id="inimigos-derrotados">Carregando...</span>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <h2>Moeda Permanente</h2>
+      <div class="info-item">
+        <span class="label">Quantidade:</span>
+        <span id="moeda-permanente">Carregando...</span>
+      </div>
+    </div>
+
+    
+      </div>
+    </div>
+
+    
+  </main>
+
+  <script type="module" src="../../../Controllers/Perfil.js"></script>
+</body>
+</html>
