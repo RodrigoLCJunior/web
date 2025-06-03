@@ -231,7 +231,7 @@ export async function openChangePasswordModal() {
 
 async function atualizarUsuario(userId, payload) {
   try {
-    const response = await fetch(`${baseUrl}/${userId}/alterar`, {
+    const response = await fetch(`${baseUrl}/api/usuarios/${userId}/alterar`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
@@ -275,6 +275,49 @@ async function validarSenhaAtual(email, senha) {
     console.error('Erro ao validar senha atual:', error);
     return false;
   }
+}
+
+async function confirmarExclusaoConta() {
+  const response = await fetch('../Components/confirm_delete_modal.html');
+  const html = await response.text();
+  document.getElementById('modal-container').innerHTML = html;
+
+  const modal = document.getElementById('confirm-delete-modal');
+  const closeBtn = document.getElementById('close-confirm-delete');
+  const confirmBtn = document.getElementById('confirm-delete-btn');
+  const cancelBtn = document.getElementById('cancel-delete-btn');
+
+  modal.style.display = 'flex';
+
+  closeBtn.onclick = cancelBtn.onclick = () => modal.style.display = 'none';
+  window.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
+
+  confirmBtn.onclick = async () => {
+    const usuario = UserService.getCurrentUser();
+    if (!usuario) return logout();
+
+    try {
+      const response = await fetch(`${baseUrl}/api/usuarios/${usuario.id}/deletar`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        showToast('Conta excluída com sucesso.', 'success');
+        localStorage.removeItem('user');
+        setTimeout(() => {
+          window.location.href = '../../../Views/LandingPage/HTML/LandingPage.html';
+        }, 2000);
+      } else {
+        const error = await response.json();
+        showToast(error.message || 'Erro ao excluir conta.', 'error');
+      }
+    } catch (err) {
+      console.error(err);
+      showToast('Erro ao conectar no servidor.', 'error');
+    } finally {
+      modal.style.display = 'none';
+    }
+  };
 }
 
 function showToast(message, type = 'success') {
