@@ -1,0 +1,644 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+  }
+  
+
+
+  body {
+    background-size: cover;
+    background-attachment: fixed; 
+    color: #f0f0f0;
+    line-height: 1.6;
+    overflow-x: hidden; 
+    
+  }
+
+  
+  
+  header {
+    background: transparent;
+    padding: 15px 3%;
+    text-align: center; 
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    transition: 0.5s ;
+    z-index: 9999;
+  }
+  
+  header.rolagem{
+    background-color: white; 
+    padding: 3px 3%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  header h2{
+    font-size: 3rem;
+    color: #ffffff;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+    
+  }
+  
+  .banner {
+    font-size: 1.2rem;
+    color: #c21313;
+  }
+  /* começo degrade */
+  
+  .hero {
+  height: 100vh;
+  padding-bottom: 50vh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+
+  background-image:url('../../../Assets/Backgrounds/bg_rewalker.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  position: relative;
+}
+
+/* Degradê controlado com opacidade dinâmica */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(3, 44, 84, 0.95) 0%,     
+    rgba(3, 63, 98, 0.0) 20%,     
+    rgba(3, 63, 98, 0.0) 80%,     
+    rgba(3, 44, 84, 0.95) 100%    
+  );
+  transition: opacity linear;
+  pointer-events: none;
+  z-index: 1;
+  opacity: var(--overlay-opacity, 1);
+}
+
+
+/* Coloca o conteúdo acima do degradê */
+.hero > * {
+  position: relative;
+  z-index: 2;
+}
+  
+ /* fim */
+ 
+ 
+ /* caixa */
+
+ .caixa-continua {
+  background-color: rgba(3, 44, 84, 0.948); /* mesma cor do final do degradê */
+  padding: 150px 20px;       /* espaçamento interno */
+  text-align: center;
+  border-bottom-left-radius: 100px;
+  border-bottom-right-radius: 100px;
+  margin-top: -1px; 
+}
+
+.conteudo-interno {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.2rem;
+  color: #033f62; /* texto com bom contraste */
+
+}
+ /* fim */
+
+ /* caixas azul e branca */
+
+   .caixas-duplas {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: nowrap;
+  margin-top: -100px;
+  padding: 0 20px;
+  z-index: 10;
+  position: relative;
+  
+}
+
+.caixa {
+  width: 430px;
+  border-radius: 20px;
+  padding: 50px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  text-align: left;
+}
+
+.caixa-container {
+  display: flex;
+  align-items: end;
+  gap: 20px;
+  
+}
+
+.caixa.branca {
+  background-color: white;
+  color: #333;
+}
+
+.caixa.azul {
+  background-color: #3aadc9;
+  color: white;
+}
+
+.icone-noticias {
+  width: 130px;
+  height: 110px;
+  object-fit: contain;
+  border-radius: 10%; 
+  background-color: #40B4D4; 
+  padding: 1.0px;
+}
+
+.icone-comunidade {
+  width: 130px;
+  height: 110px;
+  object-fit: contain;
+  border-radius: 10%; 
+  background-color: #ffffff; 
+  padding: 1.0px;
+}
+
+
+ /* fim */
+
+
+  .hero h2 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    color: #ffffff;
+    font-family: "Londrina Solid", sans-serif;
+    margin-top: 125px;
+    line-height: 1.0;
+
+  }
+  
+  .hero p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: #bbb;
+    font-family: "Londrina Solid", sans-serif;
+    font-weight: 300;
+    line-height: 1.0;
+  }
+  
+  .hero a {
+    background-color: #2c88ff;
+    color: white;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.3s ease;
+    
+  }
+  
+  .hero a:hover {
+    background-color: #1b6ed6;
+  }
+  
+  /* texto */
+
+  .caixa-continua h3 {
+    margin-bottom: 1rem;
+    color: #212121;
+    font-family: "Londrina Solid", sans-serif;
+    line-height: 1.0;
+    font-size: 2rem;
+    text-align: center;
+
+    
+  }
+
+  .caixa-continua p {
+  font-family: "Londrina Solid", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  text-align: center;
+  
+
+
+  }
+
+  /* fim */
+
+  
+  @media (max-width: 600px) {
+    header h1 {
+      font-size: 2.2rem;
+    }
+  
+    .hero h2 {
+      font-size: 1.5rem;
+    }
+  
+    .features {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  .top-bar {
+    margin: auto;
+    max-width: 1280px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    position: relative;
+    width: 100%;
+    top: 0;
+  }
+
+  
+  .left {
+    display: flex;
+    flex-direction: column;   /* Alinha os itens verticalmente */
+    justify-content: center;  /* Centraliza verticalmente */
+    align-items: center;      /* Centraliza horizontalmente */
+    margin-right: 1rem;       /* Para garantir algum espaço, se necessário */
+  }
+  .right {
+    display: flex;
+    align-items: center;
+  }
+  
+  .hamburger {
+    font-size: 3.5rem;
+    cursor: pointer;
+    color: #38383f;
+    padding: 0.5rem 2rem; 
+    user-select: none;
+  }
+  
+  .dropdown {
+    position: absolute;
+    top: 2.7rem;
+    right: 120px;
+    background: #1f1f25;
+    width: 170px;
+    border-radius: 10px;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000;
+  
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: height 0.3s ease, opacity 0.3s ease;
+    pointer-events: none;
+    padding: 0 1rem; /* padding lateral fixo */
+  }
+  
+  .dropdown.show {
+    height: auto; 
+    opacity: 1;
+    pointer-events: all;
+    padding: 1rem; /* Já garante espaçamento bonito */
+}
+  
+  
+  .dropdown img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 1rem;
+  }
+  
+  .dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+  }
+  
+  .dropdown ul li {
+    margin: 0.5rem 0;
+  }
+  
+  .dropdown ul li a {
+    color: #ccc;
+    text-decoration: none;
+    
+  }
+  
+  .dropdown ul li a:hover {
+    color: #2c88ff;
+  }
+  
+
+  .switch {
+    position: relative;
+    display: flex;
+    flex-direction: column; /* Alinha o texto abaixo do switcher */
+    align-items: center;    /* Centraliza os itens */
+    width: 50px;
+    height: 26px;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    top: 0; left: 0;
+    right: 0; bottom: 0;
+    background-color: #444;
+    transition: .4s;
+    border-radius: 34px;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 20px; width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  
+  input:checked + .slider {
+    background-color: #2c88ff;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(24px);
+  }
+  
+  .logo-container {
+    text-align: center;
+    
+  }
+  
+  .logo {
+    max-width: 300px;
+    width: 100%;
+    height: auto;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .switch-label {
+  margin-top: 0.5rem; /* Espaço entre o switcher e o texto */
+  color: #575757;
+  font-size: 0.9rem;
+  user-select: none;
+}
+
+/* scroll */
+  html, body {
+    height: 300%; 
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    background-color: #24242c;
+  }
+
+  .content {
+    flex: 1;
+  }
+
+  ::-webkit-scrollbar{
+    width: 25px;
+  }
+
+  ::-webkit-scrollbar-thumb{
+  background-color: orange;
+  border-radius: 10px;
+  border: 3px solid #24242c;
+    
+  }
+
+
+/* fim */
+
+body.modal-open {
+  overflow: hidden;
+}
+
+/* arvores fim da página */
+
+.arvores {
+  margin-top: 150px;
+  background-image: url('../../../Assets/Logos/florestanegra_.png');
+  background-repeat: no-repeat;
+  background-position: bottom center; 
+  background-size: cover; /* ou "contain" se preferir mostrar tudo */
+  
+  width: 100%;
+  height: 310px; /* ajuste conforme necessário */
+  
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+
+  padding-bottom: 30px;
+  position: relative;
+  z-index: 1;
+  background-color: transparent;
+}
+
+/* fim  */
+
+footer{
+ position: relative;
+  z-index: 10;
+  background-color: #000000;
+  color: rgb(95, 91, 91);
+  text-align: center;
+  padding: 20px;
+}
+
+.nosifer-regular {
+  font-family: "Nosifer", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* caixa do video */
+
+.caixa-video-container {
+  display: flex;
+  justify-content: flex-start; 
+  width: 100%;
+  margin-top: 120px;
+  
+}
+
+.caixa-video-background {
+  width: 45vw;
+  height: 440px;
+  background-color: #1e1e2f;
+  border-radius: 0 20px 20px 0; /* Arredonda só o lado direito agora */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  position: relative;
+}
+
+
+/* fim */
+
+/* texto ao lado do vídeo */
+
+.caixa-video h2{
+  margin-bottom: 1rem;
+    font-family: "Londrina Solid", sans-serif;
+    line-height: 1.0;
+    font-size: 3.0rem;
+    text-align: center;
+    margin-top: 120px;
+    padding-left: 50px;
+    margin-left: 30px;
+    text-shadow:
+    -1px -1px 0 #000,  
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     2px  2px 0 #000; 
+  
+}
+
+.caixa-video p{
+  font-family: "Londrina Solid", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  text-align: center;
+  line-height: 2.0;
+  font-size: 1.1rem;
+  padding-left: 50px;
+  margin-left: 30px;
+  
+  
+}
+/* fim */ 
+
+/* ultimas caixas */
+
+.features {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 2rem 1rem;
+    gap: 1.5rem;
+    
+  }
+  
+  .feature-card {
+    flex: 1;
+    min-width: 260px;
+    max-width: 300px;
+    background-color: #24242c;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid #2c88ff22;
+    margin-top: 130px;
+    
+  }
+  
+  .feature-card h3 {
+    line-height: 1.0;
+    font-size: 2.1rem;
+    margin-bottom: 1rem;
+    color: #2c88ff;
+     font-family: "Londrina Solid", sans-serif;
+  }
+  
+  .feature-card p {
+    font-family: "Londrina Solid", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    text-align: center;
+    line-height: 1.5;
+    color: #aaa;
+    font-size: 1.1rem;
+  }
+
+/* fim */
+
+.video-sobreposto {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  width: 220px;    
+  height: 390px;
+  border: 6px solid  #494949;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+
+.video-sobreposto video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* fim */
+
+
+/* raios */
+.raio {
+  position:absolute;
+  top: 20px;
+  width: 150px;
+  height: 150px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0;
+}
+
+/* Esquerdo */
+#raio_esquerdo {
+  left: 20px;
+  background-image: url('../../../Assets/Logos/raio_esquerdo.png');
+   width: 800px; 
+  height: 1000px;
+  
+}
+  
+/* Direito */
+#raio_direito {
+  right: 20px;
+  background-image: url('../../../Assets/Logos/raio_direito.png');
+  width: 800px;
+  height: 1000px;
+  
+}
+
+/* Animação para piscar */
+@keyframes raioFlash {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+
+/* fim */
+
+
