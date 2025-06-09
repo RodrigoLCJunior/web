@@ -1,0 +1,189 @@
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #1f1f25;
+  padding: 2rem;
+  border-radius: 10px;
+  max-width: 460px;
+  width: 90%;
+  color: white;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  animation: fadeScaleIn 0.3s ease forwards;
+  transform-origin: center;
+
+}
+
+.modal-content h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.modal-content label {
+  display: block;
+  margin-bottom: 0.2rem;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.modal-content input {
+  display: block;
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: none;
+  background-color: #2c2c38;
+  color: white;
+}
+
+.modal-content input::placeholder {
+  color: #888;
+  font-size: 0.95rem;
+}
+
+.modal-content button[type="submit"] {
+  margin-top: 0.8rem;
+  padding: 0.8rem;
+  font-size: 1rem;
+  background-color: transparent;
+  border: 1.5px solid #2c88ff;
+  color: #2c88ff;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.modal-content button[type="submit"]:hover {
+  background-color: #2c88ff;
+  color: white
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.6rem;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: #fff;
+}
+
+.password-container {
+  position: relative;
+  width: 100%;
+}
+
+.password-container input {
+  width: 100%;
+  padding-right: 2.5rem;  /* espaço para o olho 👁 */
+  padding-left: 0.8rem;   /* alinhado ao emoji 🔒 */
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #aaa;
+  font-size: 1.4rem;
+  user-select: none;
+}
+
+.toggle-password:hover {
+  color: #fff;
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1rem 0 0.5rem;
+  color: #777;
+  font-size: 1rem;
+}
+
+.separator::before,
+.separator::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #444;
+  margin: 0 10px;
+}
+
+.register-btn {
+  background-color: transparent;
+  border: 1.5px solid #2c88ff;
+  color: #2c88ff;
+  padding: 0.8rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.register-btn:hover {
+  background-color: #2c88ff;
+  color: white;
+}
+
+.back-to-login-btn {
+  background-color: transparent;
+  border: 1.5px solid #2c88ff;
+  color: #2c88ff;
+  padding: 0.8rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  text-align: center;
+  margin-top: 0.8rem;
+}
+
+.back-to-login-btn:hover {
+  background-color: #2c88ff;
+  color: white;
+}
+
+
+@keyframes fadeScaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
